@@ -10,6 +10,10 @@ class AddCashRequest(BaseModel):
     username: str
     amount: int
 
+@app.get("/")
+def home():
+    return {"message": "✅ API is running successfully!"}
+
 @app.post("/add_cash")
 async def add_cash(req: AddCashRequest):
     username = req.username.lower()
