@@ -1,18 +1,13 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from pydantic import BaseModel
 
 app = FastAPI()
 
-# Example in-memory database
-data = {}
+data = {}  # In-memory store for user Robocons
 
 class AddCashRequest(BaseModel):
     username: str
     amount: int
-
-@app.get("/")
-def home():
-    return {"message": "✅ API is running successfully!"}
 
 @app.post("/add_cash")
 async def add_cash(req: AddCashRequest):
@@ -24,3 +19,8 @@ async def add_cash(req: AddCashRequest):
 async def get_cash(username: str):
     username = username.lower()
     return {"username": username, "cash": data.get(username, 0)}
+
+# ✅ Add this /pending endpoint
+@app.get("/pending")
+async def pending():
+    return data
